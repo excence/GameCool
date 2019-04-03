@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Jeuxvideo;
-use App\Form\ProductType;
+use App\Form\GamecoolType;
 use App\Repository\JeuxvideoRepository;
 use App\Service\FileService;
 use App\Service\StringService;
@@ -16,35 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class GamecoolController extends AbstractController
 {
     /**
-     * @Route("/products", name="products.index")
+     * @Route("/gamecools", name="gamecools.index")
      */
     public function index(JeuxvideoRepository $jeuxvideoRepository):Response
     {
-    	/*
-    	 * doctrine : 2 classes principales
-    	 *      - sélection d'une table (select) : utilisation de la classe repository; injecter la classe en paramètre de la méthode du contrôleur
-    	 *      - update/delete/insert : classe ObjectManager
-    	 *
-    	 * dans la classe repository (select) : 4 méthodes de sélection par défaut
-    	 *   find(id) : sélection une entité(objet) par son identifiant
-    	 *   findAll : sélection de toutes les entités: crée un array d'entités
-    	 *   findBy() : sélection de plusieurs entités avec des paramètres
-    	 *       liste de critères : cibler des colonnes et des valeurs
-    	 *       ordre du tri : cibler une colonne
-    	 *       limite : limitation du nombre de résultats
-    	 *       offset : décalage des résultats
-    	 *    findOneBy: sélection d'une seule entité avec une liste de critères
-    	 * */
-    	/*$result = $productRepository->findBy(
-    		[],
-		    [ 'price' => 'DESC' ],
-		    2,
-		    1
-	    );
-    	$result = $productRepository->findOneBy([
-    		'price' => 30
-	    ]);
-    	dd($result);*/
+    	
 
     	$results = $jeuxvideoRepository->findAll();
 
@@ -84,8 +60,8 @@ class GamecoolController extends AbstractController
 			$entity = new Product();
 		}*/
 		// si l'id n'est pas vide
-		$entity = $id ? $jeuxvideoRepository->find($id) : new Product();
-		$type = ProductType::class; // renvoie le namespace de la classe
+		$entity = $id ? $jeuxvideoRepository->find($id) : new Jeuxvideo();
+		$type = GamecoolType::class; // renvoie le namespace de la classe
 
 		// ajout d'une propriété dynamique (lors de l'exécution) pour stocker le nom de l'image
 		$entity->prevImage = $entity->getImage();
@@ -207,12 +183,12 @@ class GamecoolController extends AbstractController
 
 	// suppression d'un produit
 	/**
-	 * @Route("/products/delete/{id}", name="product.delete")
+	 * @Route("/gamecools/delete/{id}", name="gamecool.delete")
 	 */
-	public function delete(int $id, ProductRepository $productRepository, ObjectManager $objectManager):Response
+	public function delete(int $id, JeuxvideoRepository $jeuxvideoRepository, ObjectManager $objectManager):Response
 	{
 		// sélection de l'entité par son identifiant
-		$entity = $productRepository->find($id);
+		$entity = $jeuxvideoRepository->find($id);
 
 		// suppression de l'entité
 		$objectManager->remove($entity);
