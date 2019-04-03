@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        <div class="row">
+		<div class="col">
+			<h1>Accueil administration</h1>
+			<p>Votre email est : {{ app.user.email }}</p>
+			{#
+				accéder à l'utilisateur connecté
+					dans twig: app.user
+						is_granted("ROLE_ADMIN") : test sur un rôle
+						IS_AUTHENTICATED_FULLY : utilisateur connecté ou déconnecté
+						logout_url : cible la route de déconnexion
+			#}
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				{#<p><a href="{{ url('security.logout') }}">Déconnexion</a></p>#}
+				<p><a href="{{ logout_url() }}" class="btn btn-danger">Déconnexion</a></p>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
