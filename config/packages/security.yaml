@@ -8,6 +8,8 @@ security:
             security: false
         main:
             anonymous: true
+             authenticators:
+                    - App\Security\AppAuthenticator
 
             # activate different ways to authenticate
 
